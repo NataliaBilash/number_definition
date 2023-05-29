@@ -4,7 +4,7 @@ import cv2
 import imutils
 import numpy as np
 
-import text_definiton
+import text_definiton #распознавание по тесеракт
 
 #открытие картинки из папки и переработка его в rgb прострастве
 def open_img(img_path):
@@ -16,6 +16,7 @@ def open_img(img_path):
 
     return carplate_img
 
+#нахождение координат номера по хаар каскаду
 def carplate_extract(image, carplate_haar_cascade):
     carplate_rects = carplate_haar_cascade.detectMultiScale(image, scaleFactor=1.1, minNeighbors=5)
     for x, y, w, h in carplate_rects:
@@ -23,6 +24,7 @@ def carplate_extract(image, carplate_haar_cascade):
     
     return carplate_img
 
+#уыеличение изображения для лучшего распазнования 
 def enlarge_img(image, scale_percent):
     witgh=int(image.shape[1] * scale_percent / 100)
     height=int(image.shape[0] * scale_percent / 100)
@@ -32,7 +34,8 @@ def enlarge_img(image, scale_percent):
     return resized_image
 
 def main():
-    carplate_img_rgb = open_img(img_path="/home/zeroff/git/pic_project/examples/1.jpg")
+    path_to_image = input("Enter the full path to the image: ") #/home/zeroff/git/pic_project/examples/1.jpg
+    carplate_img_rgb = open_img(img_path=path_to_image)
     carplate_haar_cascade = cv2.CascadeClassifier('/home/zeroff/git/pic_project/models/haarcascade_russian_plate_number.xml')
 
     carplate_extract_img = carplate_extract(image=carplate_img_rgb, carplate_haar_cascade=carplate_haar_cascade)
@@ -41,7 +44,8 @@ def main():
     plt.axis("off")
     plt.imshow(carplate_extract_img)
     plt.show()
-    text_definiton.text_definition(carplate_extract_img)
+    definition_carplate=text_definiton.text_definition(carplate_extract_img)
+    text_definiton.write_file(definition_carplate)
 
 
 if __name__ == "__main__":
