@@ -36,7 +36,7 @@ def enlarge_img(image, scale_percent):
 def main():
     path_to_image = input("Enter the full path to the image: ") #/home/zeroff/git/pic_project/examples/1.jpg
     carplate_img_rgb = open_img(img_path=path_to_image)
-    carplate_haar_cascade = cv2.CascadeClassifier('/home/zeroff/git/pic_project/models/haarcascade_russian_plate_number.xml')
+    carplate_haar_cascade = cv2.CascadeClassifier('models/haarcascade_russian_plate_number.xml')
 
     carplate_extract_img = carplate_extract(image=carplate_img_rgb, carplate_haar_cascade=carplate_haar_cascade)
     carplate_extract_img = enlarge_img(image=carplate_extract_img, scale_percent=150)
