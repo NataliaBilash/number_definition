@@ -1,37 +1,32 @@
-import requests
-from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import pandas as pd
+import time
+from bs4 import BeautifulSoup
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import requests
+
+#сохранение страницы сайта, чтобы он не включил защиту от роботов
 
 
-# код заоса станицы 
-# url = "https://avtocod.ru/"
+def parsing(carplate):
+    option = Options()
+    option.add_argument("--disable-infobars") 
+    # https://avtocod.ru/
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver.get('https://avtocod.ru/')
+    #заполнение поля и нажание на кнопку
+    find_text_field  =  driver.find_element(By.CLASS_NAME,  'search-block__field' )
+    find_text_field.send_keys(carplate + Keys.RETURN)
 
-# headers = {
-#     "accept": "*/*",
-#     "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-# }
+    find_button =  driver.find_element(By.CLASS_NAME,  'search-block__btn' )
+    find_button.click()
 
-# #получение кода страницы
-# req = requests.get(url, headers=headers)
-# src = req.text
-# #print(src)
-
-
-
-carplate = "A222AA75"
-driver = webdriver.Chrome("chromedriver")
-driver.get("https://avtocod.ru/")
-driver.find_element(By.CLASS_NAME,"search-block__field js-gos js-input").send_keys(carplate)
-driver.find_element("link_text","Проверить авто").click()
-# ждем завершения состояния готовности
-
-#сохранение сайта
-# with open("sites_files/index.html", "w") as file:
-#     file.write(src)
-
-# with open("sites_files/index.html") as file:
-#     src = file.read()
-
-# soup = BeautifulSoup(src, "lxml")
+    time.sleep(10)
+    url = driver.current_url
+    return url
+    
