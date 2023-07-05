@@ -26,7 +26,7 @@ def parsing(carplate):
     find_button =  driver.find_element(By.CLASS_NAME,  'search-block__btn' )
     find_button.click()
 
-    time.sleep(10)
+    time.sleep(60)
     url = driver.current_url
     return url
     

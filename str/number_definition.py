@@ -59,7 +59,8 @@ def main():
     plt.show()
     definition_carplate=text_definiton.text_definition(carplate_extract_img)
     text_definiton.write_file(definition_carplate)
-    parsing_autocod.parsing(definition_carplate)
+    carplate_url=parsing_autocod.parsing(definition_carplate)
+    print(carplate_url)
 
 
 if __name__ == "__main__":
